@@ -3,25 +3,17 @@ import dlib
 import cv2
 import os
 import inspect
-import re
-
-LEFT_EYE = re.compile('leftEye x=' + '"' + '[0-9]+')
-RIGHT_EYE = re.compile('rightEye x=' + '"' + '[0-9]+')
-PERSON_ID = re.compile('person id=' + '"' + '[0-9]+')
-FRAME_ID = re.compile('frame number=' + '"' + '[0-9]+')
-REG_NUM = re.compile('[0-9]+')
-
 
 class PreProcessing:
-    
+
     def __init__(self, args):
         self.args = args
         print('Pre Processing')
-    
+
     def align_face_youtube_face(self):
         curr_directory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-        input_dir = os.path.join(curr_directory, 'input_dir_2')
-        out_dir = os.path.join(curr_directory, 'out_dir_2_temp_2')
+        input_dir = os.path.join(curr_directory, 'input_dir')
+        out_dir = os.path.join(curr_directory, 'out_dir')
         list_label = os.listdir(input_dir)
         # assert os.path.exists(out_dir) and len(os.listdir(out_dir)) <= 1 and self.args.shapePredictor is not None
         print('Face Aligning ...')
@@ -52,10 +44,10 @@ class PreProcessing:
                                     # tuple dapat diisi dengan None (size'a bakal ngikutin yg default dari OpenCV)
                                     # a bicubic interpolation over 4x4 pixel neighborhood
                                     # image = cv2.resize(image, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_CUBIC)
-        
+
                                     gray = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
                                     rects = detector(gray, 3)
-        
+
                                     for rect in rects:
                                         face_aligned = fa.align(image, gray, rect)
                                         if not os.path.exists(label_path_out):

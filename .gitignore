@@ -44,7 +44,7 @@ htmlcov/
 nosetests.xml
 coverage.xml
 *.cover
-.hypothesis/
+.hypo
 .pytest_cache/
 
 # Translations
@@ -105,65 +105,14 @@ venv.bak/
 
 .idea/
 
-thesis/input_dir_1/
-thesis/input_dir_2/
-thesis/input_dir_3/
-thesis/out_dir_1/
-thesis/out_dir_2/
-thesis/out_dir_2_temp/
-thesis/out_dir_3/
-thesis/out_dir_4/
-thesis/lfw/
-thesis/lfw_hr/
-thesis/lfw_2/
-thesis/ytd/
-thesis/ytd_hr/
-thesis/ferret/
-thesis/ferret_hr/
+input_dir/
+out_dir/
+ytd/
 
-bz2_zip/00001/
 .DS_Store
 shape_predictor_68_face_landmarks.dat
-lfw.tgz
 
-thesis/training/first_try.h5
-thesis/training/model_weights.h5
-thesis/training/bottleneck_features_train.npy
-thesis/training/bottleneck_features_validation.npy
-thesis/training/bottleneck_features_testing.npy
-thesis/training/tbe_cnn_ferret.h5
-thesis/training/tbe_cnn_lfw.h5
-thesis/training/tbe_cnn_ytd.h5
-thesis/training/tbe_cnn_ytd_2.h5
-thesis/training/acc_vs_epochs.png
-thesis/training/tbe_cnn_ytd_epoch_100.h5
-thesis/training/tbe_cnn_ytd_for_ferret.h5
-thesis/training/tbe_cnn_ytd_for_lfw.h5
-thesis/ytd.zip
-
-thesis/testing/tbe_cnn_ferret.h5
-thesis/testing/tbe_cnn_lfw.h5
-thesis/testing/tbe_cnn_ytd.h5
-
-cat_dog_example/first_try.h5
-cat_dog_example/bottleneck_features_train.npy
-cat_dog_example/bottleneck_features_testing.npy
-cat_dog_example/bottleneck_features_validation.npy
-
-cat_dog_example/data/
-cat_dog_example/preview/
-cat_dog_example/training images/
-
-try_dlib/afw/
-try_dlib/helen/
-try_dlib/ibug/
-try_dlib/lfpw/
-
-transfer_learning/lfw/
-transfer_learning/resnet_transfer_learning.h5
-transfer_learning/resnet_transfer_learning_ferret.h5
-transfer_learning/resnet_transfer_learning_lfw.h5
-transfer_learning/resnet_transfer_learning_ytd.h5
-transfer_learning/acc_vs_epochs.png
+tbe_cnn_ytd.h5
+tbe_cnn_ytd_epoch_100.h5
 
 venv

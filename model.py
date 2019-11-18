@@ -1,6 +1,6 @@
 from tensorflow.python.keras.layers import Conv2D, MaxPooling2D, Concatenate, Input
 import os
-from thesis.training import inception
+import inception
 
 
 # # Just disables the warning, doesn't enable AVX/FMA (no GPU)
@@ -12,10 +12,10 @@ def get_model(width, height):
 
     conv1_convolution = Conv2D(64, (7, 7), strides=2, data_format='channels_last', activation='softmax', padding='same', name='conv1_convolution')(input_img)
     conv1 = MaxPooling2D(data_format='channels_last', padding='same', strides=2, pool_size=(2, 2), name='conv1')(conv1_convolution)
-    
+
     conv2_convolution = Conv2D(192, (3, 3), strides=2, data_format='channels_last', activation='softmax', padding='same', name='conv2_convolution')(conv1)
     conv2 = MaxPooling2D(data_format='channels_last', padding='same', strides=1, pool_size=(2, 2), name='conv2')(conv2_convolution)
-    
+
     inception3a_activation = inception.with_dimension_reduction(conv2, 64, False, name='inception3a_activation')
     inception3 = inception.with_dimension_reduction(inception3a_activation, 120, True, name='inception3')
 
@@ -34,7 +34,7 @@ def get_model(width, height):
     inception4 = inception.with_dimension_reduction(inception4e_activation, 208, True, name='inception4_branch_1')
     inception5a_activation = inception.with_dimension_reduction(inception4, 208, False, name='inception5a_activation_branch_1')
     inception5b_2 = inception.with_dimension_reduction(inception5a_activation, 256, True, name='inception5b_2_branch_1')
-    
+
     ######################################################### Branch 2 ##########################################################
 
     inception4c_activation = inception.with_dimension_reduction(inception3, 128, False, name='inception4c_activation_branch_2')
@@ -61,5 +61,5 @@ def get_model(width, height):
         inception5b_2,
         merged_branch
     ])
-    
+
     return input_img, merged

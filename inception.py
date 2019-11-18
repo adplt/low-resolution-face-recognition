@@ -16,6 +16,7 @@ def with_dimension_reduction(input_shape, depth, with_pooling=False, pool_size=(
     inception_merge = Concatenate(axis=3, name=name if not with_pooling else None)([tower_0, tower_1, tower_2, tower_3])
     inception_activation = Activation('softmax')(inception_merge)
     
-    inception = MaxPooling2D(data_format='channels_last', padding='same', strides=(1, 1), pool_size=pool_size, name=name)(inception_activation)\
+    inception = MaxPooling2D(data_format='channels_last', padding='same', strides=(1, 1),
+                             pool_size=pool_size, name=name)(inception_activation)\
         if with_pooling else inception_activation
     return inception

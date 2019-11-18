@@ -2,7 +2,7 @@ import os
 import inspect
 
 curr_directory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-file_directory = os.path.join(curr_directory, 'lfw_2/validate')
+file_directory = os.path.join(curr_directory, './ytd/validate')
 
 list_label = os.listdir(file_directory)
 
@@ -18,5 +18,5 @@ while i < len(list_label):
         print('remove: ', path)
         os.rmdir(path)
     i += 1
-        
+
 print('finish remove empty folder')

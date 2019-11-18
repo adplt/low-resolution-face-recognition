@@ -5,7 +5,7 @@ import inspect
 curr_directory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 dataset_dir = os.path.join(curr_directory, 'out_dir_1')
 
-URL_PATH = 'lfw_2'
+URL_PATH = 'ytd'
 
 training_dir = os.path.join(URL_PATH, 'train')
 validate_dir = os.path.join(URL_PATH, 'validate')
@@ -19,16 +19,16 @@ for idx in range(len(list_label)):
 
     print('label:' + list_label[idx])
     print('\n')
-    
+
     n_photo_train = int(float('70'.strip('%')) / 100 * len(files)) + 1
     n_photo_validation = int(float('20'.strip('%')) / 100 * len(files))
     n_photo_test = int(float('10'.strip('%')) / 100 * len(files))
-    
+
     print('n_photo_train: ', n_photo_train)
     print('n_photo_validation: ', n_photo_validation)
     print('n_photo_test: ', n_photo_test)
     print('\n')
-    
+
     # print file
     start = 0
     finish = n_photo_train
@@ -45,18 +45,18 @@ for idx in range(len(list_label)):
         start = n_photo_train
         finish = int(n_photo_train + n_photo_validation)
     photo_val = files[start:finish]
-    
+
     print('start photo_val: ', start)
     print('finish photo_val: ', finish)
     print('\n')
-    
+
     if n_photo_test == 0:
         start = 0
         finish = n_photo_train
     else:
         start = int(n_photo_train + n_photo_validation)
         finish = len(files)
-        
+
     photo_test = files[start:finish]
 
     print('start photo_test: ', start)
@@ -91,5 +91,5 @@ for idx in range(len(list_label)):
 
     for image in photo_test:
         shutil.copyfile(os.path.join(dataset_dir, list_label[idx], image), os.path.join(testing_dir, list_label[idx], image))
-        
+
 print('finish split dataset ', URL_PATH, '\n')

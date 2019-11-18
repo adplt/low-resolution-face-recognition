@@ -1,25 +1,26 @@
-from thesis.training import model, common_function
+import model, common_function
 from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.python.keras.optimizers import SGD
 import os
 import asyncio
 from tensorflow.python.keras.callbacks import ModelCheckpoint
 from tensorflow.python.keras.layers import Dropout, Flatten, Dense, Activation
-from tensorflow.python.keras.models import Model
+from tensorflow.python.keras.models import load_model, Model
 
 # Just disables the warning, doesn't enable AVX/FMA (no GPU)
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 epochs = 100
-l_rate = 1.0e-4  # 0.01
+l_rate = 1.0e-4
 decay = l_rate / epochs
 sgd = SGD(lr=l_rate, momentum=0.9, decay=decay, nesterov=False)
-batch_size = 32  # 32
+batch_size = 32
 img_width, img_height = 24, 24
-path_data_set = '../ytd'
+path_data_set = './ytd'
 input_img, merged = model.get_model(img_width, img_height)
 num_train_images = 424961  # training images: 424961  # total images: 605855
-file_path = 'tbe_cnn_ytd_epoch_100.h5'
+file_path = 'tbe_cnn_ytd.h5'
+
 
 datagen = ImageDataGenerator(
     rescale=1. / 255,
@@ -33,15 +34,19 @@ datagen = ImageDataGenerator(
 
 
 async def training():
-    flatten = Flatten()(merged)
-    dense = Dense(64)(flatten)
-    activation = Activation('softmax')(dense)
-    dropout = Dropout(0.5)(activation)
-    dense = Dense(1591)(dropout)
-    activation = Activation('softmax')(dense)
+    if not os.path.exists(file_path):
+        flatten = Flatten()(merged)
+        dense = Dense(64)(flatten)
+        activation = Activation('softmax')(dense)
+        dropout = Dropout(0.5)(activation)
+        dense = Dense(1591)(dropout)
+        activation = Activation('softmax')(dense)
     
-    base_model = Model(input_img, activation)
-    base_model.load_weights(file_path)
+        base_model = Model(input_img, activation)
+    else:
+        base_model = load_model(file_path)
+        base_model.load_weights(file_path)
+    
     base_model.summary()
     
     train_generator_lr = datagen.flow_from_directory(
@@ -61,9 +66,9 @@ async def training():
     )
     
     print('training: ')
-    
+
     base_model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
-    
+
     checkpoint = ModelCheckpoint(
         file_path,
         monitor='val_loss',
