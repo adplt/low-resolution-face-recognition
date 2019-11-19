@@ -1,5 +1,5 @@
 import argparse
-from thesis.align_data import PreProcessing
+from align_data import PreProcessing
 
 EYES = [i for i in range(36, 48)]
 
