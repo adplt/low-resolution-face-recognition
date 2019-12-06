@@ -10,10 +10,10 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 def get_model(width, height):
     input_img = Input(shape=(width, height, 3))
 
-    conv1_convolution = Conv2D(64, (7, 7), strides=2, data_format='channels_last', activation='softmax', padding='same', name='conv1_convolution')(input_img)
+    conv1_convolution = Conv2D(64, (7, 7), strides=2, data_format='channels_last', activation='relu', padding='same', name='conv1_convolution')(input_img)
     conv1 = MaxPooling2D(data_format='channels_last', padding='same', strides=2, pool_size=(2, 2), name='conv1')(conv1_convolution)
 
-    conv2_convolution = Conv2D(192, (3, 3), strides=2, data_format='channels_last', activation='softmax', padding='same', name='conv2_convolution')(conv1)
+    conv2_convolution = Conv2D(192, (3, 3), strides=2, data_format='channels_last', activation='relu', padding='same', name='conv2_convolution')(conv1)
     conv2 = MaxPooling2D(data_format='channels_last', padding='same', strides=1, pool_size=(2, 2), name='conv2')(conv2_convolution)
 
     inception3a_activation = inception.with_dimension_reduction(conv2, 64, False, name='inception3a_activation')
