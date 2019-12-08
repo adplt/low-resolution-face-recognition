@@ -114,5 +114,8 @@ shape_predictor_68_face_landmarks.dat
 
 tbe_cnn_ytd.h5
 tbe_cnn_ytd_epoch_100.h5
+tbe_cnn_ytd_adam.h5
+tbe_cnn_ytd_nadam.h5
+tbe_cnn_ytd_sgd.h5
 
 venv

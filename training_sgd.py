@@ -1,4 +1,5 @@
-import model, common_function
+import model_3_branch
+import common_function
 from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.python.keras.optimizers import SGD
 import os
@@ -17,7 +18,7 @@ sgd = SGD(lr=l_rate, momentum=0.9, decay=decay, nesterov=False)
 batch_size = 32
 img_width, img_height = 24, 24
 path_data_set = './ytd'
-input_img, merged = model.get_model(img_width, img_height)
+input_img, merged = model_3_branch.get_model(img_width, img_height)
 num_train_images = 424961  # training images: 424961  # total images: 605855
 file_path = 'tbe_cnn_ytd_sgd.h5'
 
@@ -45,7 +46,7 @@ async def training():
         base_model = Model(input_img, activation)
     else:
         base_model = load_model(file_path)
-        base_model.load_weights(file_path)
+        # base_model.load_weights(file_path)
     
     base_model.summary()
     
