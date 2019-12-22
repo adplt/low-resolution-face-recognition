@@ -1,10 +1,8 @@
+from sklearn.metrics import multilabel_confusion_matrix
 from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.python.keras.models import load_model
 import os
 import numpy as np
-import tensorflow as tf
-import keras.backend as K
-
 
 # Just disables the warning, doesn't enable AVX/FMA (no GPU)
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
@@ -13,10 +11,9 @@ print('YTD')
 
 path_dataset_lr = './ytd'
 img_width_lr, img_height_lr = 24, 24
-batch_size = 32
-num_train_images = 60363
+batch_size = 8
 
-datagen = ImageDataGenerator()  # rescale=1./255
+datagen = ImageDataGenerator(rescale=1./255)
 
 testing_generator = datagen.flow_from_directory(
     str(path_dataset_lr + '/test'),
@@ -33,25 +30,25 @@ model = load_model('tbe_cnn_ytd.h5')
 model.summary()
 
 print('predictions: ')
-# steps=test_steps_per_epoch
-predictions = model.predict_generator(testing_generator, num_train_images // batch_size + 1)
+
+predictions = model.predict_generator(testing_generator, steps=test_steps_per_epoch)
 
 predicted_classes = np.argmax(predictions, axis=1)
-true_class_label = K.argmax(y_true, axis=-1)
+class_labels = list(testing_generator.class_indices.keys())
+cm = multilabel_confusion_matrix(testing_generator.classes, predicted_classes)
 
-cm = tf.confusion_matrix(testing_generator.classes, predicted_classes)
+print('confusion matrix: ', cm)
 
-print('testing_generator: ', testing_generator.classes)
-print('predicted_classes: ', predicted_classes)
+TP = 0
+FP = 0
+FN = 0
+TN = 0
 
-diag = tf.linalg.tensor_diag_part(cm)
+for matrix in cm:
+    TP = TP + matrix[0][0]
+    TN = TN + matrix[1][1]
+    FP = FP + matrix[0][1]
+    FN = FN + matrix[1][0]
 
-# Calculate the total number of data examples for each class
-total_per_class = tf.reduce_sum(cm, axis=1)
-
-acc_per_class = diag / tf.maximum(1, total_per_class)
-nan_mask = tf.debugging.is_nan(acc_per_class)
-x = tf.boolean_mask(acc_per_class, tf.logical_not(nan_mask))
-uar = K.mean(x)
-
-print('uar: ', uar)
+accuracy = (TP + TN) / (TP + TN + FP + FN)
+print('accuracy: ', accuracy)
