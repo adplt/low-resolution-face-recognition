@@ -112,6 +112,7 @@ ytd/
 .DS_Store
 shape_predictor_68_face_landmarks.dat
 
+tbe_cnn_ytd_2_branch.h5
 tbe_cnn_ytd.h5
 tbe_cnn_ytd_epoch_100.h5
 tbe_cnn_ytd_adam.h5
@@ -120,3 +121,5 @@ tbe_cnn_ytd_sgd.h5
 tbe_cnn_2_branch.h5
 
 venv
+
+out_dir.zip

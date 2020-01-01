@@ -1,4 +1,4 @@
-from sklearn.metrics import multilabel_confusion_matrix
+from sklearn.metrics import multilabel_confusion_matrix, classification_report
 from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.python.keras.models import load_model
 import os
@@ -26,7 +26,7 @@ testing_generator = datagen.flow_from_directory(
 test_steps_per_epoch = np.math.ceil(testing_generator.samples / testing_generator.batch_size)
 
 
-model = load_model('tbe_cnn_ytd.h5')
+model = load_model('tbe_cnn_ytd_adam.h5')
 model.summary()
 
 print('predictions: ')
@@ -52,3 +52,5 @@ for matrix in cm:
 
 accuracy = (TP + TN) / (TP + TN + FP + FN)
 print('accuracy: ', accuracy)
+
+print('classification_report: ', classification_report(testing_generator.classes, predicted_classes, target_names=class_labels))

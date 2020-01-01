@@ -20,7 +20,7 @@ img_width, img_height = 24, 24
 path_data_set = './ytd'
 input_img, merged = model_2_branch.get_model(img_width, img_height)
 num_train_images = 424961  # training images: 424961  # total images: 605855
-file_path = 'tbe_cnn_2_branch.h5'
+file_path = 'tbe_cnn_ytd_2_branch.h5'
 
 
 datagen = ImageDataGenerator(
