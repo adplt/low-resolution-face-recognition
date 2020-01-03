@@ -16,7 +16,7 @@ batch_size = 8
 datagen = ImageDataGenerator(rescale=1./255)
 
 testing_generator = datagen.flow_from_directory(
-    str(path_dataset_lr + '/test'),
+    str(path_dataset_lr + '/validate'),
     target_size=(img_width_lr, img_height_lr),
     batch_size=batch_size,
     class_mode='categorical',
@@ -51,6 +51,6 @@ for matrix in cm:
     FN = FN + matrix[1][0]
 
 accuracy = (TP + TN) / (TP + TN + FP + FN)
-print('accuracy: ', accuracy)
 
+print('accuracy: ', accuracy)
 print('classification_report: ', classification_report(testing_generator.classes, predicted_classes, target_names=class_labels))

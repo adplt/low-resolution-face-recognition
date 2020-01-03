@@ -22,7 +22,6 @@ input_img, merged = model_2_branch.get_model(img_width, img_height)
 num_train_images = 424961  # training images: 424961  # total images: 605855
 file_path = 'tbe_cnn_ytd_2_branch.h5'
 
-
 datagen = ImageDataGenerator(
     rescale=1. / 255,
     shear_range=0.2,
@@ -42,10 +41,17 @@ async def training():
         dropout = Dropout(0.5)(activation)
         dense = Dense(1591)(dropout)
         activation = Activation('softmax')(dense)
-    
+        
         base_model = Model(input_img, activation)
     else:
         base_model = load_model(file_path)
+        for layer in base_model.layers:
+            if layer.name is 'inception4_branch_3' \
+                    and layer.name is 'inception4d_activation_branch_3' \
+                    and layer.name is 'inception4e_activation_branch_3' \
+                    and layer.name is 'inception5a_activation_branch_3' \
+                    and layer.name is 'inception5b_4_branch_3':
+                layer.trainable = False
         # base_model.load_weights(file_path)
     
     base_model.summary()
@@ -67,9 +73,9 @@ async def training():
     )
     
     print('training: ')
-
+    
     base_model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
-
+    
     checkpoint = ModelCheckpoint(
         file_path,
         monitor='val_loss',

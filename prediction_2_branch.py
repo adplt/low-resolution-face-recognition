@@ -16,7 +16,7 @@ batch_size = 8
 datagen = ImageDataGenerator(rescale=1./255)
 
 testing_generator = datagen.flow_from_directory(
-    str(path_dataset_lr + '/test'),
+    str(path_dataset_lr + '/train'),
     target_size=(img_width_lr, img_height_lr),
     batch_size=batch_size,
     class_mode='categorical',
