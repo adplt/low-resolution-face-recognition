@@ -1,7 +1,7 @@
 import model_3_branch
 import common_function
 from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
-from tensorflow.python.keras.optimizers import SGD
+from tensorflow.python.keras.optimizers import SGD, Adam
 import os
 import asyncio
 from tensorflow.python.keras.callbacks import ModelCheckpoint
@@ -14,13 +14,13 @@ from tensorflow.python.keras.models import load_model, Model
 epochs = 100
 l_rate = 1.0e-4
 decay = l_rate / epochs
-sgd = SGD(lr=l_rate, momentum=0.9, decay=decay, nesterov=False)
+sgd = Adam(lr=l_rate, beta_1=0.9, beta_2=0.999, amsgrad=False)
 batch_size = 32
 img_width, img_height = 24, 24
 path_data_set = './ytd'
 input_img, merged = model_3_branch.get_model(img_width, img_height)
 num_train_images = 424961  # training images: 424961  # total images: 605855
-file_path = 'tbe_cnn_ytd_epoch_100.h5'
+file_path = 'tbe_cnn_ytd.h5'
 
 
 datagen = ImageDataGenerator(
@@ -71,7 +71,7 @@ async def training():
     base_model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
 
     checkpoint = ModelCheckpoint(
-        file_path,
+        'tbe_cnn_ytd_epoch_100.h5',
         monitor='val_loss',
         save_best_only=True,
         mode='auto',
@@ -89,7 +89,7 @@ async def training():
     )
     
     common_func = common_function.CommonFunction()
-    common_func.plot_training(history, 'TBE-CNN (SGD)')
+    common_func.plot_training(history, 'TBE-CNN (3 Branch - Epoch 100)')
 
 
 if __name__ == '__main__':
