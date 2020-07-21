@@ -22,4 +22,6 @@ This project is a Face Recognition using Deep Learning for low resolution video 
 
 - There are 2 way to training model, ensemble and non-ensemble.
 
-## Paper for this project will be publish soon.
+## Paper for this project
+
+- https://www.astesj.com/publications/ASTESJ_050291.pdf
