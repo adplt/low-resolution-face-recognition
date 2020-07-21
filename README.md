@@ -1,4 +1,4 @@
-# Face Recognition
+# Low Resolution - Face Recognition (Using 3 Trunk Branch Ensemble - Convolutional Neural Network)
 
 This project is a Face Recognition using Deep Learning for low resolution video surveillance purposed for thesis only. The concept using Trunk Branch Ensemble Convolutional Neural Network (TBE CNN) architecture containt some pre-processing method like:
 
